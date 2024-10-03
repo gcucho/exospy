@@ -851,19 +851,16 @@ def generateObservationMatrix(los,pos,exosgrid):
 #-------------------------------------------------------------------------------
 def generate3DHmodel(model,exosgrid):
   H = np.zeros((int(exosgrid.numvoxels),1))
-  theta = np.array([[0.0]])
-  rad = np.array([[0.0]])
-  phi = np.array([[0.0]])
 
   for t_id in range(int(exosgrid.numT)):
-    theta[0,0] = exosgrid.tvals[t_id]+exosgrid.tstep/2
-    theta[0,0] = theta[0,0]*np.pi/180
+    theta = exosgrid.tvals[t_id]+exosgrid.tstep/2
+    theta = theta*np.pi/180
     for p_id in range(int(exosgrid.numP)):
-      phi[0,0] = exosgrid.pvals[p_id]+exosgrid.pstep/2
-      phi[0,0] = phi[0,0]*np.pi/180
+      phi = exosgrid.pvals[p_id]+exosgrid.pstep/2
+      phi = phi*np.pi/180
       for r_id in range(int(exosgrid.numR)):
-        rad[0,0] = exosgrid.rvals[r_id]+exosgrid.rstep/2
-        H[int(r_id+p_id*exosgrid.numR+t_id*exosgrid.numR*exosgrid.numP),0] = get_density(model,rad,theta,phi)
+        rad = exosgrid.rvals[r_id]+exosgrid.rstep/2
+        H[int(r_id+p_id*exosgrid.numR+t_id*exosgrid.numR*exosgrid.numP),0] = get_density(model,rad,theta,phi)[0]
         #print(rad,theta,phi)
 
   return H
